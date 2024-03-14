@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://gp8p3gqo67f4"]
+
+[ext_resource type="Shader" path="res://outline02.gdshader" id="1_nyjvp"]
+[ext_resource type="Script" path="res://outline.gd" id="2_4qjqk"]
+[ext_resource type="Theme" uid="uid://dhxfq4xbmopnk" path="res://Themes/pixel_theme.tres" id="2_34owg"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_i6x8i"]
+shader = ExtResource("1_nyjvp")
+
+[node name="Outline" type="Sprite2D"]
+visible = false
+z_index = 5
+texture_filter = 1
+material = SubResource("ShaderMaterial_i6x8i")
+script = ExtResource("2_4qjqk")
+
+[node name="Label" type="Label" parent="."]
+offset_top = -13.0
+offset_right = 36.0
+theme = ExtResource("2_34owg")
+text = "test
+"

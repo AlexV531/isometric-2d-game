@@ -1,0 +1,84 @@
+[gd_scene load_steps=9 format=3 uid="uid://pyce048biq2g"]
+
+[ext_resource type="Script" path="res://door.gd" id="1_fgxkm"]
+[ext_resource type="Texture2D" uid="uid://cm0r8svtbcfxc" path="res://Assets/iso-sheet-3.png" id="2_sqqxq"]
+[ext_resource type="Script" path="res://OpenCloseDoorAction.gd" id="3_ik7hx"]
+[ext_resource type="Script" path="res://UnlockAction.gd" id="4_o48n4"]
+[ext_resource type="PackedScene" uid="uid://gp8p3gqo67f4" path="res://outline.tscn" id="5_mpi37"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ilh01"]
+atlas = ExtResource("2_sqqxq")
+region = Rect2(128, 16, 20, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_40eav"]
+atlas = ExtResource("2_sqqxq")
+region = Rect2(128, 86, 20, 42)
+
+[sub_resource type="GDScript" id="GDScript_0x55j"]
+script/source = "class_name TileArea
+extends Area2D
+
+
+
+
+func _on_area_entered(area):
+	print(\"entered\")
+"
+
+[node name="Door" type="Area2D"]
+z_index = 1
+y_sort_enabled = true
+script = ExtResource("1_fgxkm")
+
+[node name="OpenDoor" type="Sprite2D" parent="."]
+visible = false
+y_sort_enabled = true
+texture_filter = 1
+position = Vector2(-5, -4)
+texture = SubResource("AtlasTexture_ilh01")
+offset = Vector2(-1, -15)
+
+[node name="ClosedDoor" type="Sprite2D" parent="."]
+y_sort_enabled = true
+texture_filter = 1
+position = Vector2(-7, 3)
+texture = SubResource("AtlasTexture_40eav")
+offset = Vector2(1, -16)
+
+[node name="CollisionOpen" type="CollisionPolygon2D" parent="."]
+visible = false
+polygon = PackedVector2Array(-16, -32, 0, -40, 4, -38, 4, -6, -12, 2, -16, 0)
+
+[node name="CollisionClosed" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(0, 8, 4, 6, 4, -26, -12, -34, -16, -32, -16, 0)
+disabled = true
+
+[node name="OpenCloseDoorAction" type="Node" parent="." node_paths=PackedStringArray("actor")]
+script = ExtResource("3_ik7hx")
+actor = NodePath("..")
+
+[node name="UnlockAction" type="Node" parent="." node_paths=PackedStringArray("actor")]
+script = ExtResource("4_o48n4")
+actor = NodePath("..")
+
+[node name="TileArea" type="Area2D" parent="."]
+collision_mask = 2
+script = SubResource("GDScript_0x55j")
+
+[node name="CollisionTile" type="CollisionPolygon2D" parent="TileArea"]
+polygon = PackedVector2Array(0, 8, -16, 0, 0, -8, 16, 0)
+
+[node name="OpenDoorOutline" parent="." instance=ExtResource("5_mpi37")]
+position = Vector2(-5, -4)
+texture = SubResource("AtlasTexture_ilh01")
+offset = Vector2(-1, -15)
+
+[node name="ClosedDoorOutline" parent="." instance=ExtResource("5_mpi37")]
+position = Vector2(-7, 3)
+texture = SubResource("AtlasTexture_40eav")
+offset = Vector2(1, -16)
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
+[connection signal="area_entered" from="TileArea" to="." method="_on_tile_area_area_entered"]
+[connection signal="area_exited" from="TileArea" to="." method="_on_tile_area_area_exited"]
