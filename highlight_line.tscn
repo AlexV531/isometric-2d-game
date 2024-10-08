@@ -1,0 +1,17 @@
+[gd_scene load_steps=5 format=3 uid="uid://cy1ope5b4wa1g"]
+
+[ext_resource type="Script" path="res://highlight_line.gd" id="1_i7u8y"]
+[ext_resource type="Shader" uid="uid://daib0r24oo6ek" path="res://outline.tres" id="1_mhe3d"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wv3np"]
+render_priority = 0
+shader = ExtResource("1_mhe3d")
+
+[sub_resource type="ImmediateMesh" id="ImmediateMesh_etc8g"]
+
+[node name="HighlightLine" type="MeshInstance3D"]
+material_overlay = SubResource("ShaderMaterial_wv3np")
+instance_shader_parameters/red = false
+mesh = SubResource("ImmediateMesh_etc8g")
+skeleton = NodePath("../..")
+script = ExtResource("1_i7u8y")

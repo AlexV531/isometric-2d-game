@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://c4n0vusep0ce6"]
+
+[ext_resource type="PackedScene" uid="uid://b5englfjf0fo6" path="res://assets/models/cover_arrow.glb" id="1_midns"]
+
+[node name="cover_arrow" instance=ExtResource("1_midns")]

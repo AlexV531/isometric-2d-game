@@ -1,0 +1,139 @@
+[gd_scene load_steps=16 format=3 uid="uid://c7q2yfsvmhm6y"]
+
+[ext_resource type="MeshLibrary" uid="uid://bn6q1fdj2jk17" path="res://assets/mesh_libraries/temp_mesh_library.tres" id="1_bau75"]
+[ext_resource type="Script" path="res://gridmap_pathfinding.gd" id="2_kdxif"]
+[ext_resource type="PackedScene" uid="uid://byxmolyaxaorq" path="res://player_3d.tscn" id="3_oxqou"]
+[ext_resource type="Script" path="res://camera_3d.gd" id="4_yvvys"]
+[ext_resource type="PackedScene" uid="uid://ce77cbaqhlvo" path="res://character_3d.tscn" id="5_81s0f"]
+[ext_resource type="Script" path="res://ui_controller.gd" id="9_87qv7"]
+[ext_resource type="PackedScene" uid="uid://c8cktf2xqrlta" path="res://general_action_select.tscn" id="10_cb4bk"]
+[ext_resource type="PackedScene" uid="uid://vggftn3qtgda" path="res://ui/drag_preview.tscn" id="10_g3wq1"]
+[ext_resource type="PackedScene" uid="uid://croet5yqy3ag1" path="res://item_container_3d.tscn" id="10_jab3f"]
+[ext_resource type="PackedScene" uid="uid://yrjeosdof436" path="res://tooltip.tscn" id="11_lp1t1"]
+[ext_resource type="PackedScene" uid="uid://d07hk252w6hcf" path="res://door3d.tscn" id="11_ps3cm"]
+[ext_resource type="PackedScene" uid="uid://dfqo7r0piurtq" path="res://action_label.tscn" id="11_y6iv1"]
+[ext_resource type="PackedScene" uid="uid://ddv2c7xlp6w0l" path="res://action_select.tscn" id="12_py7xs"]
+[ext_resource type="PackedScene" uid="uid://cl6t6k5paea82" path="res://grid_space_select.tscn" id="15_fon2j"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_duhfs"]
+
+[node name="World3D" type="Node3D"]
+
+[node name="GridMap" type="GridMap" parent="."]
+mesh_library = ExtResource("1_bau75")
+cell_size = Vector3(1, 1, 1)
+collision_layer = 17
+data = {
+"cells": PackedInt32Array(2, 2, 2, 1, 2, 2, 0, 2, 2, 65535, 2, 2, 65534, 2, 2, 65533, 2, 2, 65532, 2, 2, 65532, 1, 655362, 65533, 1, 655362, 65534, 1, 655362, 65535, 1, 655362, 0, 1, 655362, 1, 1, 655362, 0, 3, 655360, 65532, 3, 1441792, 65532, 6, 0, 0, 6, 1048576, 0, 4, 1048579, 0, 5, 1048579, 65533, 6, 3, 65534, 6, 3, 65535, 6, 3, 1, 3, 655362, 65533, 5, 655362, 65534, 5, 655362, 65535, 5, 655362, 65533, 4, 655362, 65534, 4, 655362, 65535, 4, 655362, 65530, 0, 1048578, 65531, 65535, 655362, 65531, 65534, 655362, 65531, 65533, 1048578, 65532, 65532, 655362, 65532, 65531, 655362, 65532, 65530, 655362, 65533, 65529, 655362, 65533, 65528, 655362, 65534, 65528, 655362, 65534, 65527, 655362, 65535, 65527, 655362, 0, 65527, 655362, 0, 65528, 655362, 1, 65528, 655362, 1, 65529, 655362, 2, 65529, 655362, 2, 65530, 655362, 3, 65530, 655362, 1, 65530, 655362, 0, 65529, 655362, 65535, 65529, 655362, 65535, 65530, 655362, 65534, 65530, 655362, 65533, 65530, 655362, 65533, 65531, 655362, 65532, 65533, 655362, 65533, 65533, 655362, 65534, 65533, 655362, 65535, 65532, 655362, 0, 65532, 655362, 1, 65532, 655362, 1, 65531, 655362, 2, 65531, 655362, 0, 65533, 655362, 65535, 65533, 655362, 65534, 65534, 655362, 65533, 65534, 655362, 65533, 65535, 655362, 65532, 65535, 655362, 65532, 65534, 655362, 65534, 65532, 655362, 65535, 65531, 655362, 0, 65531, 655362, 65534, 65531, 655362, 65534, 65529, 655362, 65535, 65528, 655362, 0, 65530, 655362, 65533, 65532, 655362, 65531, 0, 655362, 65530, 1, 655362, 65530, 2, 655362, 65531, 2, 655362, 65531, 1, 655362, 2, 1, 655362, 3, 1, 655362, 4, 1, 655362, 4, 2, 1048578, 5, 1, 1048578, 5, 0, 1048578, 5, 65535, 2, 5, 65534, 1048578, 4, 65533, 1048578, 4, 65532, 1048578, 3, 65532, 1048578, 2, 65532, 655362, 2, 65533, 655362, 1, 65533, 655362, 0, 65534, 655362, 65535, 65534, 655362, 65535, 65535, 655362, 65534, 65535, 655362, 65533, 0, 655362, 65532, 0, 655362, 65534, 0, 655362, 65535, 0, 655362, 0, 0, 655362, 1, 0, 655362, 2, 0, 655362, 3, 0, 655362, 4, 65535, 1048578, 4, 65534, 1048578, 3, 65534, 655362, 3, 65533, 655362, 1, 65534, 655362, 0, 65535, 655362, 2, 65534, 655362, 3, 65535, 655362, 2, 65535, 655362, 1, 65535, 655362, 2, 3, 1048578, 65533, 3, 655363, 65534, 3, 655363, 65532, 5, 1441795, 65532, 4, 1441795, 4, 65531, 1048578, 3, 65531, 1048578, 5, 65532, 1048578, 5, 65533, 1048578, 6, 65533, 1048578, 6, 65534, 1048578, 6, 65535, 1048578, 6, 0, 1048578, 6, 1, 1048578, 6, 2, 1048578, 7, 65534, 1048578, 7, 65535, 1048578, 8, 65535, 1048578, 8, 0, 1048578, 8, 1, 1048578, 7, 1, 1048578, 7, 2, 1048578, 7, 0, 1048578, 8, 2, 1048578, 5, 2, 1048578, 5, 3, 1048578, 4, 3, 1048578, 4, 4, 1048578, 4, 5, 1048578, 4, 6, 1048578, 4, 7, 1048578, 4, 8, 1048578, 3, 7, 1048578, 3, 6, 1048578, 3, 5, 1048578, 3, 4, 1048578, 2, 4, 1048578, 2, 5, 1048578, 2, 6, 1048578, 2, 7, 1048578, 1, 5, 1048578, 1, 4, 1048578, 1, 6, 1048578, 1, 7, 1048578, 1, 8, 1048578, 1, 9, 1048578, 0, 9, 1048578, 65535, 9, 1048578, 65535, 8, 1048578, 0, 8, 1048578, 0, 7, 1048578, 65535, 7, 1048578, 65534, 7, 1048578, 65533, 7, 1048578, 65532, 7, 1048578, 65532, 8, 1048578, 65533, 8, 1048578, 65533, 9, 1048578, 65534, 9, 1048578, 65534, 8, 1048578, 65531, 8, 1048578, 65531, 7, 1048578, 65531, 6, 1048578, 65531, 5, 1048578, 65531, 4, 1048578, 65530, 4, 1048578, 65530, 5, 1048578, 65530, 3, 1048578, 65531, 3, 1048578, 65530, 6, 1048578, 65530, 7, 1048578, 65530, 8, 1048578, 65531, 9, 1048578, 65532, 9, 1048578, 65533, 10, 1048578, 65534, 10, 1048578, 65535, 10, 1048578, 2, 8, 1048578, 3, 8, 1048578, 3, 9, 1048578, 2, 9, 1048578, 2, 10, 1048578, 3, 10, 1048578, 5, 5, 1048578, 5, 4, 1048578, 3, 3, 1048578, 65535, 3, 655361, 65530, 65535, 1048578, 65530, 65534, 1048578, 65530, 65533, 1048578, 65530, 65532, 1048578, 65529, 65533, 1048578, 65529, 65534, 1048578, 65529, 65535, 1048578, 65528, 0, 1048578, 65527, 1, 1048578, 65527, 2, 1048578, 65526, 2, 1048578, 65526, 3, 1048578, 65525, 4, 1048578, 65525, 5, 1048578, 65525, 3, 1048578, 65526, 1, 1048578, 65527, 0, 1048578, 65527, 65535, 1048578, 65528, 65535, 1048578, 65528, 65534, 1048578, 65529, 1, 1048578, 65529, 2, 1048578, 65528, 3, 1048578, 65528, 4, 1048578, 65527, 4, 1048578, 65527, 3, 1048578, 65529, 65532, 1048578, 65530, 65531, 1048578, 65531, 65531, 1048578, 65531, 65532, 1048578, 65529, 3, 1048578, 65528, 2, 1048578, 65528, 1, 1048578, 65529, 0, 1048578, 65526, 4, 1048578, 65528, 5, 1048578, 65528, 6, 1048578, 65528, 7, 1048578, 65527, 8, 1048578, 65527, 9, 1048578, 65527, 11, 1048578, 65527, 12, 1048578, 65527, 10, 1048578, 65527, 7, 1048578, 65527, 6, 1048578, 65529, 4, 1048578, 65529, 5, 1048578, 65529, 6, 1048578, 65529, 7, 1048578, 65529, 8, 1048578, 65528, 9, 1048578, 65528, 8, 1048578, 65526, 7, 1048578, 65526, 6, 1048578, 65525, 6, 1048578, 65526, 5, 1048578, 65526, 8, 1048578, 65526, 9, 1048578, 65525, 9, 1048578, 65525, 8, 1048578, 65525, 7, 1048578, 65526, 10, 1048578, 65525, 10, 1048578, 65527, 5, 1048578, 65528, 10, 1048578, 65529, 10, 1048578, 65530, 10, 1048578, 65531, 10, 1048578, 65529, 9, 1048578, 65530, 9, 1048578, 65532, 10, 1048578, 65533, 11, 1048578, 65532, 11, 1048578, 65531, 11, 1048578, 65530, 11, 1048578, 65529, 11, 1048578, 65528, 11, 1048578, 65528, 12, 1048578, 65524, 5, 2, 65524, 6, 2, 65524, 7, 2, 65524, 8, 2, 4, 0, 1048578, 3, 2, 1048578)
+}
+script = ExtResource("2_kdxif")
+metadata/_editor_floor_ = Vector3(0, 0, 0)
+
+[node name="Ground" type="Area3D" parent="GridMap"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 0.5)
+collision_layer = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GridMap/Ground"]
+shape = SubResource("BoxShape3D_duhfs")
+
+[node name="Player3D" parent="." node_paths=PackedStringArray("grid_map", "ui_controller", "grid_space_select", "action_label") instance=ExtResource("3_oxqou")]
+grid_map = NodePath("../GridMap")
+ui_controller = NodePath("../UIController")
+grid_space_select = NodePath("../GridSpaceSelect")
+action_label = NodePath("../UI/ActionLabel")
+
+[node name="CameraBody" type="CharacterBody3D" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="CameraBody" node_paths=PackedStringArray("player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8.625, 0)
+projection = 1
+current = true
+size = 12.0
+far = 150.0
+script = ExtResource("4_yvvys")
+player = NodePath("../../Player3D")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.834234, 0.25, -0.491481, 0.491481, 0.0669872, 0.868308, 0.25, -0.965926, -0.0669872, -15, 26, -2)
+shadow_enabled = true
+
+[node name="TargetPosition" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 7)
+
+[node name="Character" parent="." node_paths=PackedStringArray("grid_map", "player", "action_select") instance=ExtResource("5_81s0f")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 1.375, -0.5)
+grid_map = NodePath("../GridMap")
+player = NodePath("../Player3D")
+action_select = NodePath("../UI/ActionSelect")
+
+[node name="Character2" parent="." node_paths=PackedStringArray("grid_map", "player", "action_select", "default_action") instance=ExtResource("5_81s0f")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 1.375, 6.5)
+grid_map = NodePath("../GridMap")
+player = NodePath("../Player3D")
+action_select = NodePath("../UI/ActionSelect")
+default_action = NodePath("../Character/TalkAction")
+
+[node name="UIController" type="Node" parent="." node_paths=PackedStringArray("drag_preview", "tooltip")]
+script = ExtResource("9_87qv7")
+drag_preview = NodePath("../UI/DragPreview")
+tooltip = NodePath("../UI/Tooltip")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="DragPreview" parent="UI" instance=ExtResource("10_g3wq1")]
+visible = false
+offset_left = -132.0
+offset_top = -136.0
+offset_right = -1056.0
+offset_bottom = -640.0
+
+[node name="Tooltip" parent="UI" instance=ExtResource("11_lp1t1")]
+visible = false
+
+[node name="ActionSelect" parent="UI" instance=ExtResource("12_py7xs")]
+custom_minimum_size = Vector2(200, 0)
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 44.0
+offset_bottom = 31.0
+grow_horizontal = 1
+grow_vertical = 1
+scale = Vector2(1.5, 1.5)
+
+[node name="GeneralActionSelect" parent="UI" node_paths=PackedStringArray("player") instance=ExtResource("10_cb4bk")]
+offset_left = -519.0
+offset_top = -672.0
+offset_right = -346.0
+offset_bottom = -448.0
+scale = Vector2(3, 3)
+player = NodePath("../../Player3D")
+
+[node name="ActionLabel" parent="UI" instance=ExtResource("11_y6iv1")]
+visible = false
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 2.7, 5)
+light_energy = 3.0
+shadow_enabled = true
+
+[node name="Marker3D" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0, 7)
+
+[node name="ItemContainer3D" parent="." node_paths=PackedStringArray("grid_map", "player", "action_select") instance=ExtResource("10_jab3f")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 1, 4.5)
+grid_map = NodePath("../GridMap")
+player = NodePath("../Player3D")
+action_select = NodePath("../UI/ActionSelect")
+
+[node name="Door" parent="." node_paths=PackedStringArray("grid_map", "player", "action_select") instance=ExtResource("11_ps3cm")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.5, 0.5, 3.5)
+closed = true
+grid_map = NodePath("../GridMap")
+player = NodePath("../Player3D")
+action_select = NodePath("../UI/ActionSelect")
+
+[node name="GridSpaceSelect" parent="." instance=ExtResource("15_fon2j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)

@@ -1,0 +1,23 @@
+~ start
+
+Soup: [[Hi|Hello|Howdy]]!
+Soup: Do you want any cool soups?
+- Yes
+	Soup: Soup soup soup.
+- No
+	Soup: What is wrong with you? You freak.
+- What did you say? => start
+- Go away. => END
+Soup: For more information see the online documentation.
+
+=> END
+
+~ lostgoldenwatch
+
+Soup: Hmm I may have heard Cornelius talking about that the other day, I think he said he lost it in the river?
+- Where's the river?
+	Soup: Just north if you follow the forest trail.
+	- Ok thank you!
+- Interesting, thank you.
+
+=> END

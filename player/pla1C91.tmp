@@ -1,0 +1,123 @@
+[gd_scene load_steps=19 format=3 uid="uid://c7e0w4kxbp0xg"]
+
+[ext_resource type="Script" path="res://player/player.gd" id="1_10471"]
+[ext_resource type="Texture2D" uid="uid://cv5flqaafulfc" path="res://assets/images/test-guy-tall.png" id="2_304pg"]
+[ext_resource type="Script" path="res://states/finite_state_machine.gd" id="2_kposc"]
+[ext_resource type="Script" path="res://states/move_one_away_state.gd" id="4_g46xs"]
+[ext_resource type="Script" path="res://states/move_state.gd" id="4_nqnqg"]
+[ext_resource type="Script" path="res://states/idle_state.gd" id="5_wsr0t"]
+[ext_resource type="Script" path="res://states/chase_state.gd" id="7_dlr78"]
+[ext_resource type="Script" path="res://states/meta_states/interacting_meta_state.gd" id="8_38w83"]
+[ext_resource type="Script" path="res://states/meta_states/default_meta_state.gd" id="9_78jqv"]
+[ext_resource type="Script" path="res://shooter.gd" id="9_l7yef"]
+[ext_resource type="Script" path="res://states/meta_states/slow_meta_state.gd" id="10_rbmhb"]
+[ext_resource type="Script" path="res://states/meta_states/talking_meta_state.gd" id="11_s2typ"]
+[ext_resource type="Script" path="res://states/meta_states/paused_meta_state.gd" id="12_yi1n7"]
+[ext_resource type="PackedScene" uid="uid://2085hfi2rhut" path="res://ui/inventory_menu.tscn" id="14_t851q"]
+[ext_resource type="Script" path="res://inventory.gd" id="15_3eoaf"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8hbco"]
+size = Vector2(10, 3)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_yquaa"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(20, 0, 0)
+gravity = Vector3(0, 0, 0)
+scale_min = 0.5
+scale_max = 0.5
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pkvv6"]
+radius = 5.0
+
+[node name="Player" type="CharacterBody2D"]
+z_index = 1
+y_sort_enabled = true
+texture_filter = 1
+script = ExtResource("1_10471")
+
+[node name="Inventory" type="Node" parent="."]
+script = ExtResource("15_3eoaf")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("2_304pg")
+offset = Vector2(0, -14)
+
+[node name="FiniteStateMachine" type="Node" parent="." node_paths=PackedStringArray("state")]
+script = ExtResource("2_kposc")
+state = NodePath("IdleState")
+
+[node name="MoveState" type="Node" parent="FiniteStateMachine" node_paths=PackedStringArray("actor")]
+script = ExtResource("4_nqnqg")
+actor = NodePath("../..")
+
+[node name="MoveOneAwayState" type="Node" parent="FiniteStateMachine" node_paths=PackedStringArray("actor")]
+script = ExtResource("4_g46xs")
+actor = NodePath("../..")
+
+[node name="IdleState" type="Node" parent="FiniteStateMachine"]
+script = ExtResource("5_wsr0t")
+
+[node name="ChaseState" type="Node" parent="FiniteStateMachine" node_paths=PackedStringArray("actor")]
+script = ExtResource("7_dlr78")
+actor = NodePath("../..")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_8hbco")
+
+[node name="Shooter" type="Node2D" parent="."]
+y_sort_enabled = true
+script = ExtResource("9_l7yef")
+
+[node name="BulletTrail" type="GPUParticles2D" parent="Shooter"]
+modulate = Color(0.329412, 0.329412, 0.329412, 0.478431)
+self_modulate = Color(1, 1, 1, 0.490196)
+y_sort_enabled = true
+emitting = false
+amount = 1000
+process_material = SubResource("ParticleProcessMaterial_yquaa")
+lifetime = 0.15
+one_shot = true
+explosiveness = 1.0
+
+[node name="FiniteMetaStateMachine" type="Node" parent="." node_paths=PackedStringArray("state")]
+script = ExtResource("2_kposc")
+state = NodePath("DefaultMetaState")
+
+[node name="InteractingMetaState" type="Node" parent="FiniteMetaStateMachine" node_paths=PackedStringArray("p")]
+script = ExtResource("8_38w83")
+p = NodePath("../..")
+
+[node name="DefaultMetaState" type="Node" parent="FiniteMetaStateMachine" node_paths=PackedStringArray("p")]
+script = ExtResource("9_78jqv")
+p = NodePath("../..")
+
+[node name="SlowMetaState" type="Node" parent="FiniteMetaStateMachine" node_paths=PackedStringArray("p")]
+script = ExtResource("10_rbmhb")
+p = NodePath("../..")
+
+[node name="TalkingMetaState" type="Node" parent="FiniteMetaStateMachine"]
+script = ExtResource("11_s2typ")
+
+[node name="PausedMetaState" type="Node" parent="FiniteMetaStateMachine"]
+script = ExtResource("12_yi1n7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_pkvv6")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="InventoryMenu" parent="UI" node_paths=PackedStringArray("inventory") instance=ExtResource("14_t851q")]
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_bottom = 50.0
+inventory = NodePath("../../Inventory")
+metadata/_edit_use_anchors_ = true

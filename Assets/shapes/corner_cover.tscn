@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://cxsca355uyxln"]
+
+[ext_resource type="Script" path="res://corner_cover.gd" id="1_07lsb"]
+[ext_resource type="Shape3D" uid="uid://cr5g7wxyxxmdw" path="res://assets/shapes/corner01.shape" id="1_ot53l"]
+
+[node name="CornerCover" type="Area3D"]
+script = ExtResource("1_07lsb")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1.01, 0, 0, 0, 1.01, 0, 0, 0, 1.01, 0, 0, 0)
+shape = ExtResource("1_ot53l")

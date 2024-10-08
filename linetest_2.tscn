@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://dnbr576kqhv5l"]
+
+[node name="Line2D With Origin" type="Line2D"]
+points = PackedVector2Array(1, -21, 31, -32)
+width = 1.0

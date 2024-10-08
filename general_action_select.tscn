@@ -1,0 +1,31 @@
+[gd_scene load_steps=2 format=3 uid="uid://c8cktf2xqrlta"]
+
+[ext_resource type="Script" path="res://general_action_select.gd" id="1_qt6jd"]
+
+[node name="GeneralActionSelect" type="VBoxContainer"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -163.0
+offset_top = -203.0
+grow_horizontal = 0
+grow_vertical = 0
+script = ExtResource("1_qt6jd")
+
+[node name="MoveButton" type="Button" parent="."]
+layout_mode = 2
+text = "MOVE"
+
+[node name="ShootButton" type="Button" parent="."]
+layout_mode = 2
+text = "ATTACK"
+
+[node name="Button3" type="Button" parent="."]
+layout_mode = 2
+text = "TEST3"
+
+[node name="Button4" type="Button" parent="."]
+layout_mode = 2
+text = "TEST4"

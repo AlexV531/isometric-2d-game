@@ -1,0 +1,370 @@
+[gd_scene load_steps=26 format=3 uid="uid://byxmolyaxaorq"]
+
+[ext_resource type="Script" path="res://player_3d.gd" id="1_beqd5"]
+[ext_resource type="Script" path="res://inventory.gd" id="2_0p06s"]
+[ext_resource type="Script" path="res://states/finite_state_machine.gd" id="3_q2m70"]
+[ext_resource type="Script" path="res://states/move_state.gd" id="4_mmrp1"]
+[ext_resource type="Script" path="res://states/move_one_away_state.gd" id="5_0pbcl"]
+[ext_resource type="Script" path="res://states/idle_state.gd" id="6_gln1l"]
+[ext_resource type="Script" path="res://states/chase_state.gd" id="7_klejn"]
+[ext_resource type="Script" path="res://states/meta_states/interacting_meta_state.gd" id="8_fwwn5"]
+[ext_resource type="Script" path="res://states/meta_states/default_meta_state.gd" id="9_rt0kx"]
+[ext_resource type="Script" path="res://states/multi_tile_choice_move_state.gd" id="10_gcnhd"]
+[ext_resource type="Script" path="res://states/meta_states/slow_meta_state.gd" id="10_pv0ak"]
+[ext_resource type="Script" path="res://states/meta_states/talking_meta_state.gd" id="11_elfxr"]
+[ext_resource type="Script" path="res://states/meta_states/paused_meta_state.gd" id="12_yfr88"]
+[ext_resource type="PackedScene" uid="uid://2085hfi2rhut" path="res://ui/inventory_menu.tscn" id="13_owtoo"]
+[ext_resource type="Script" path="res://shooter.gd" id="14_nqdp4"]
+[ext_resource type="PackedScene" uid="uid://cy1ope5b4wa1g" path="res://highlight_line.tscn" id="15_ywmb1"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_flubd"]
+radius = 0.25
+height = 1.75
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_xu5e1"]
+radius = 0.25
+height = 1.75
+radial_segments = 10
+rings = 1
+
+[sub_resource type="SphereMesh" id="SphereMesh_cysu2"]
+radius = 0.1
+height = 0.1
+radial_segments = 10
+rings = 2
+
+[sub_resource type="Animation" id="Animation_4yv4g"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Shape:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Shape:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CollisionShape3D:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CollisionShape3D:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Shooter:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_btp6m"]
+resource_name = "idle"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CollisionShape3D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Shooter:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Shape:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_jflff"]
+resource_name = "peek_left"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Shape:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0.51, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Shape:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, -0.261799)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CollisionShape3D:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0.51, 0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CollisionShape3D:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, -0.261799)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Shooter:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0.55, 0.05, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_s3j4d"]
+resource_name = "peek_right"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CollisionShape3D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(-0.51, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionShape3D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 0.261799)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Shape:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(-0.51, 0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Shape:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 0.261799)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Shooter:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(-0.55, 0.05, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_geq0x"]
+_data = {
+"RESET": SubResource("Animation_4yv4g"),
+"idle": SubResource("Animation_btp6m"),
+"peek_left": SubResource("Animation_jflff"),
+"peek_right": SubResource("Animation_s3j4d")
+}
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_lslvw"]
+graph_offset = Vector2(-324.818, 54.0909)
+
+[node name="Player3D" type="CharacterBody3D" node_paths=PackedStringArray("aim_highlight")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.375, 0)
+script = ExtResource("1_beqd5")
+aim_highlight = NodePath("Shooter/PlayerAimHighlight")
+
+[node name="Inventory" type="Node" parent="."]
+script = ExtResource("2_0p06s")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_flubd")
+
+[node name="Shape" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_xu5e1")
+
+[node name="Face" type="MeshInstance3D" parent="Shape"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.625, 0.24)
+mesh = SubResource("SphereMesh_cysu2")
+skeleton = NodePath("../..")
+
+[node name="Shooter" type="Node3D" parent="."]
+script = ExtResource("14_nqdp4")
+
+[node name="PlayerAimHighlight" parent="Shooter" instance=ExtResource("15_ywmb1")]
+skeleton = NodePath("../../..")
+
+[node name="FiniteStateMachine" type="Node" parent="." node_paths=PackedStringArray("state")]
+script = ExtResource("3_q2m70")
+state = NodePath("IdleState")
+
+[node name="MoveState" type="Node" parent="FiniteStateMachine" node_paths=PackedStringArray("actor")]
+script = ExtResource("4_mmrp1")
+actor = NodePath("../..")
+
+[node name="MoveOneAwayState" type="Node" parent="FiniteStateMachine" node_paths=PackedStringArray("actor")]
+script = ExtResource("5_0pbcl")
+actor = NodePath("../..")
+
+[node name="IdleState" type="Node" parent="FiniteStateMachine"]
+script = ExtResource("6_gln1l")
+
+[node name="ChaseState" type="Node" parent="FiniteStateMachine" node_paths=PackedStringArray("actor")]
+script = ExtResource("7_klejn")
+actor = NodePath("../..")
+
+[node name="MultiTileChoiceMoveState" type="Node" parent="FiniteStateMachine" node_paths=PackedStringArray("actor")]
+script = ExtResource("10_gcnhd")
+actor = NodePath("../..")
+
+[node name="FiniteMetaStateMachine" type="Node" parent="." node_paths=PackedStringArray("state")]
+script = ExtResource("3_q2m70")
+state = NodePath("DefaultMetaState")
+
+[node name="InteractingMetaState" type="Node" parent="FiniteMetaStateMachine" node_paths=PackedStringArray("p")]
+script = ExtResource("8_fwwn5")
+p = NodePath("../..")
+
+[node name="DefaultMetaState" type="Node" parent="FiniteMetaStateMachine" node_paths=PackedStringArray("p")]
+script = ExtResource("9_rt0kx")
+p = NodePath("../..")
+
+[node name="SlowMetaState" type="Node" parent="FiniteMetaStateMachine" node_paths=PackedStringArray("p")]
+script = ExtResource("10_pv0ak")
+p = NodePath("../..")
+
+[node name="TalkingMetaState" type="Node" parent="FiniteMetaStateMachine"]
+script = ExtResource("11_elfxr")
+
+[node name="PausedMetaState" type="Node" parent="FiniteMetaStateMachine"]
+script = ExtResource("12_yfr88")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="InventoryMenu" parent="UI" node_paths=PackedStringArray("inventory") instance=ExtResource("13_owtoo")]
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_bottom = 50.0
+inventory = NodePath("../../Inventory")
+metadata/_edit_use_anchors_ = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_geq0x")
+}
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_geq0x")
+}
+tree_root = SubResource("AnimationNodeBlendTree_lslvw")
+anim_player = NodePath("../AnimationPlayer")

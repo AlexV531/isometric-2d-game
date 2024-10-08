@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3 uid="uid://ihq5vwp786h3"]
+
+[ext_resource type="PackedScene" uid="uid://jfj4067fn8vd" path="res://assets/models/corner01.tscn" id="1_a5edg"]
+[ext_resource type="PackedScene" uid="uid://rcr0h083x8k5" path="res://assets/models/doorway01.tscn" id="2_8ygsr"]
+[ext_resource type="PackedScene" uid="uid://v10cruknhhnw" path="res://assets/models/floor01.tscn" id="3_7a7ex"]
+[ext_resource type="PackedScene" uid="uid://bcdbgmr8htjot" path="res://assets/models/wall01.tscn" id="4_a00rr"]
+
+[node name="Tiles" type="Node3D"]
+
+[node name="Plane" parent="." instance=ExtResource("1_a5edg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3)
+
+[node name="Plane2" parent="." instance=ExtResource("2_8ygsr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
+
+[node name="Plane3" parent="." instance=ExtResource("3_7a7ex")]
+
+[node name="Plane4" parent="." instance=ExtResource("4_a00rr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)

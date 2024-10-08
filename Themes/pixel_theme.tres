@@ -1,9 +1,9 @@
 [gd_resource type="Theme" load_steps=9 format=3 uid="uid://dhxfq4xbmopnk"]
 
-[ext_resource type="Texture2D" uid="uid://c5eh1m5h572du" path="res://Assets/button_hover_bg.png" id="1_7q02q"]
-[ext_resource type="Texture2D" uid="uid://cfpqs44byrrpc" path="res://Assets/button_bg.png" id="1_dtj5u"]
-[ext_resource type="FontFile" uid="uid://borehe83pub3j" path="res://m5x7.ttf" id="1_qmr2n"]
-[ext_resource type="Texture2D" uid="uid://688byncm4nsp" path="res://Assets/button_pressed_bg.png" id="3_fn7mg"]
+[ext_resource type="Texture2D" uid="uid://c5eh1m5h572du" path="res://assets/images/button_hover_bg.png" id="1_7q02q"]
+[ext_resource type="Texture2D" uid="uid://cfpqs44byrrpc" path="res://assets/images/button_bg.png" id="1_dtj5u"]
+[ext_resource type="FontFile" uid="uid://borehe83pub3j" path="res://assets/fonts/m5x7.ttf" id="1_qmr2n"]
+[ext_resource type="Texture2D" uid="uid://688byncm4nsp" path="res://assets/images/button_pressed_bg.png" id="3_fn7mg"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_eg7vt"]
 

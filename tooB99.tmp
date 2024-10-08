@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://yrjeosdof436"]
+
+[ext_resource type="Script" path="res://tooltip.gd" id="1_ffo71"]
+[ext_resource type="Theme" uid="uid://dhxfq4xbmopnk" path="res://themes/pixel_theme.tres" id="1_jrw0q"]
+
+[node name="Tooltip" type="ColorRect"]
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+script = ExtResource("1_ffo71")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 0
+offset_right = 177.0
+offset_bottom = 86.0
+
+[node name="ItemName" type="Label" parent="MarginContainer"]
+layout_mode = 2
+theme = ExtResource("1_jrw0q")

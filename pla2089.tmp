@@ -1,0 +1,95 @@
+[gd_scene load_steps=17 format=3 uid="uid://byxmolyaxaorq"]
+
+[ext_resource type="Script" path="res://player_3d.gd" id="1_beqd5"]
+[ext_resource type="Script" path="res://inventory.gd" id="2_0p06s"]
+[ext_resource type="Script" path="res://states/finite_state_machine.gd" id="3_q2m70"]
+[ext_resource type="Script" path="res://states/move_state.gd" id="4_mmrp1"]
+[ext_resource type="Script" path="res://states/move_one_away_state.gd" id="5_0pbcl"]
+[ext_resource type="Script" path="res://states/idle_state.gd" id="6_gln1l"]
+[ext_resource type="Script" path="res://states/chase_state.gd" id="7_klejn"]
+[ext_resource type="Script" path="res://states/meta_states/interacting_meta_state.gd" id="8_fwwn5"]
+[ext_resource type="Script" path="res://states/meta_states/default_meta_state.gd" id="9_rt0kx"]
+[ext_resource type="Script" path="res://states/meta_states/slow_meta_state.gd" id="10_pv0ak"]
+[ext_resource type="Script" path="res://states/meta_states/talking_meta_state.gd" id="11_elfxr"]
+[ext_resource type="Script" path="res://states/meta_states/paused_meta_state.gd" id="12_yfr88"]
+[ext_resource type="PackedScene" uid="uid://2085hfi2rhut" path="res://ui/inventory_menu.tscn" id="13_owtoo"]
+[ext_resource type="Script" path="res://shooter.gd" id="14_nqdp4"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_flubd"]
+radius = 0.25
+height = 1.75
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_xu5e1"]
+radius = 0.25
+height = 1.75
+
+[node name="Player3D" type="CharacterBody3D"]
+script = ExtResource("1_beqd5")
+
+[node name="Inventory" type="Node" parent="."]
+script = ExtResource("2_0p06s")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_flubd")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_xu5e1")
+
+[node name="FiniteStateMachine" type="Node" parent="." node_paths=PackedStringArray("state")]
+script = ExtResource("3_q2m70")
+state = NodePath("IdleState")
+
+[node name="MoveState" type="Node" parent="FiniteStateMachine" node_paths=PackedStringArray("actor")]
+script = ExtResource("4_mmrp1")
+actor = NodePath("../..")
+
+[node name="MoveOneAwayState" type="Node" parent="FiniteStateMachine" node_paths=PackedStringArray("actor")]
+script = ExtResource("5_0pbcl")
+actor = NodePath("../..")
+
+[node name="IdleState" type="Node" parent="FiniteStateMachine"]
+script = ExtResource("6_gln1l")
+
+[node name="ChaseState" type="Node" parent="FiniteStateMachine" node_paths=PackedStringArray("actor")]
+script = ExtResource("7_klejn")
+actor = NodePath("../..")
+
+[node name="FiniteMetaStateMachine" type="Node" parent="." node_paths=PackedStringArray("state")]
+script = ExtResource("3_q2m70")
+state = NodePath("DefaultMetaState")
+
+[node name="InteractingMetaState" type="Node" parent="FiniteMetaStateMachine" node_paths=PackedStringArray("p")]
+script = ExtResource("8_fwwn5")
+p = NodePath("../..")
+
+[node name="DefaultMetaState" type="Node" parent="FiniteMetaStateMachine" node_paths=PackedStringArray("p")]
+script = ExtResource("9_rt0kx")
+p = NodePath("../..")
+
+[node name="SlowMetaState" type="Node" parent="FiniteMetaStateMachine" node_paths=PackedStringArray("p")]
+script = ExtResource("10_pv0ak")
+p = NodePath("../..")
+
+[node name="TalkingMetaState" type="Node" parent="FiniteMetaStateMachine"]
+script = ExtResource("11_elfxr")
+
+[node name="PausedMetaState" type="Node" parent="FiniteMetaStateMachine"]
+script = ExtResource("12_yfr88")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="InventoryMenu" parent="UI" node_paths=PackedStringArray("inventory") instance=ExtResource("13_owtoo")]
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_bottom = 50.0
+inventory = NodePath("../../Inventory")
+metadata/_edit_use_anchors_ = true
+
+[node name="Shooter" type="Node3D" parent="."]
+script = ExtResource("14_nqdp4")
+
+[node name="HighlightLine" type="MeshInstance3D" parent="Shooter"]
+skeleton = NodePath("../..")

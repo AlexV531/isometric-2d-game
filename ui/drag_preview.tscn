@@ -1,0 +1,55 @@
+[gd_scene load_steps=4 format=3 uid="uid://vggftn3qtgda"]
+
+[ext_resource type="Script" path="res://ui/drag_preview.gd" id="1_34fc8"]
+[ext_resource type="Texture2D" uid="uid://cf1ioncvorasu" path="res://assets/images/apple.png" id="2_jhtqj"]
+[ext_resource type="Theme" uid="uid://dhxfq4xbmopnk" path="res://themes/pixel_theme.tres" id="3_nr5pj"]
+
+[node name="DragPreview" type="Control"]
+custom_minimum_size = Vector2(36, 36)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -924.0
+offset_bottom = -504.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(3, 3)
+mouse_filter = 2
+script = ExtResource("1_34fc8")
+
+[node name="ItemIcon" type="TextureRect" parent="."]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_jhtqj")
+
+[node name="ItemQuantity" type="Label" parent="."]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.5
+offset_top = -12.5
+offset_right = 12.5
+offset_bottom = 12.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_nr5pj")
+text = "1"
+horizontal_alignment = 2
+vertical_alignment = 2

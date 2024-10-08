@@ -1,0 +1,16 @@
+
+Controls options
+Change right or left (not sure which one) click to move always, and add a new player action "interact" 
+which just opens interact menu
+OR
+Fallout classic way, left click to do selected action, right click swaps between move and default 
+action. Click buttons/use hotkeys to select an action other than default.
+Not in combat, default action is determined by the interactable, in combat, default action is attacking with equiped weapon.
+Hovering over something inspects it. (This part not sure about)
+
+Natural shooting, without interaction menu
+	Select target(s?) and press a button to fire 
+	Maybe hold button to fire multiple shots, press for one?
+Hide buildings you go inside/behind
+Cover system
+Way to run and shoot?

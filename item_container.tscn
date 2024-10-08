@@ -1,0 +1,57 @@
+[gd_scene load_steps=8 format=3 uid="uid://dnrs3xyrjl6xc"]
+
+[ext_resource type="Script" path="res://item_container.gd" id="1_678og"]
+[ext_resource type="Script" path="res://inventory.gd" id="2_1qq0m"]
+[ext_resource type="Script" path="res://item_container_menu.gd" id="2_fpt8k"]
+[ext_resource type="PackedScene" uid="uid://bj8u2barmmkyo" path="res://ui/item_slot.tscn" id="3_10ev3"]
+[ext_resource type="Texture2D" uid="uid://d1ybiav4y7gr2" path="res://assets/images/test-guy.png" id="3_pxr8e"]
+[ext_resource type="Script" path="res://actions/open_container_action.gd" id="4_fmaxc"]
+[ext_resource type="PackedScene" uid="uid://gp8p3gqo67f4" path="res://ui/outline.tscn" id="7_3ceti"]
+
+[node name="ItemContainer" type="Area2D"]
+z_index = 1
+y_sort_enabled = true
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("1_678og")
+
+[node name="Inventory" type="Node" parent="."]
+script = ExtResource("2_1qq0m")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("3_pxr8e")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-8, -9, -10, 10, 7, 10, 10, -10)
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="ItemContainerMenu" type="GridContainer" parent="UI" node_paths=PackedStringArray("inventory")]
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -960.0
+offset_top = -270.0
+offset_right = -960.0
+offset_bottom = -270.0
+grow_horizontal = 0
+grow_vertical = 2
+scale = Vector2(3, 3)
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+script = ExtResource("2_fpt8k")
+inventory = NodePath("../../Inventory")
+ItemSlot = ExtResource("3_10ev3")
+metadata/_edit_use_anchors_ = true
+
+[node name="OpenContainerAction" type="Node" parent="." node_paths=PackedStringArray("actor")]
+script = ExtResource("4_fmaxc")
+actor = NodePath("..")
+
+[node name="Outline" parent="." instance=ExtResource("7_3ceti")]
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

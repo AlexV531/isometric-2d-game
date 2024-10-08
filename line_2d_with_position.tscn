@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://u6nu0qpby0ca"]
+
+[node name="Line2DWithPosition" type="Line2D"]
+y_sort_enabled = true
+width = 1.0

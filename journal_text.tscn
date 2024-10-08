@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://bysf677ys8sbx"]
+
+[ext_resource type="Script" path="res://journal_text.gd" id="1_t32r4"]
+
+[node name="Text" type="RichTextLabel"]
+bbcode_enabled = true
+text = "[b][url]EXAMPLE[/url][/b]
+EXAMPLE"
+fit_content = true
+meta_underlined = false
+script = ExtResource("1_t32r4")

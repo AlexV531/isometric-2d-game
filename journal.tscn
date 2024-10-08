@@ -1,0 +1,96 @@
+[gd_scene load_steps=8 format=3 uid="uid://d2m21p87ri4wg"]
+
+[ext_resource type="Script" path="res://journal.gd" id="1_f37y3"]
+[ext_resource type="Resource" uid="uid://clw5ivplgli7e" path="res://assets/dialogue/soup.dialogue" id="2_h3jdy"]
+[ext_resource type="Script" path="res://intel.gd" id="2_so5ps"]
+[ext_resource type="PackedScene" uid="uid://cek3f6jsl2hme" path="res://journal_intel_section.tscn" id="4_n6qi0"]
+[ext_resource type="PackedScene" uid="uid://bysf677ys8sbx" path="res://journal_text.tscn" id="4_rfkd2"]
+
+[sub_resource type="Theme" id="Theme_sjl8x"]
+
+[sub_resource type="Theme" id="Theme_c40lq"]
+
+[node name="Journal" type="TabContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 322.0
+offset_top = 154.0
+offset_right = -60.0
+offset_bottom = -33.0
+theme = SubResource("Theme_sjl8x")
+script = ExtResource("1_f37y3")
+dialogue_resource = ExtResource("2_h3jdy")
+
+[node name="Intel" type="Panel" parent="."]
+layout_mode = 2
+script = ExtResource("2_so5ps")
+
+[node name="Descriptions" type="Control" parent="Intel"]
+layout_mode = 1
+anchor_left = 0.5
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = 1.0
+offset_bottom = -1.0
+
+[node name="LostGoldenWatch" parent="Intel/Descriptions" instance=ExtResource("4_n6qi0")]
+visible = false
+layout_mode = 1
+offset_left = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title2" parent="Intel/Descriptions/LostGoldenWatch" instance=ExtResource("4_rfkd2")]
+layout_mode = 2
+text = "[b][url]LOST GOLDEN WATCH[/url][/b]
+[url]Cornelius[/url] has lost his golden watch."
+
+[node name="River2" parent="Intel/Descriptions/LostGoldenWatch" instance=ExtResource("4_rfkd2")]
+visible = false
+layout_mode = 2
+text = "It was last seen near [url]the river[/url]."
+
+[node name="BrokenRadio" parent="Intel/Descriptions" instance=ExtResource("4_n6qi0")]
+visible = false
+layout_mode = 1
+offset_bottom = 3.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" parent="Intel/Descriptions/BrokenRadio" instance=ExtResource("4_rfkd2")]
+layout_mode = 2
+text = "[b][url]BROKEN RADIO[/url][/b]
+The hunting lodge's radio is broken."
+
+[node name="Buttons" type="VBoxContainer" parent="Intel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_right = 1.0
+
+[node name="LostGoldenWatchButton" type="Button" parent="Intel/Buttons"]
+layout_mode = 2
+theme = SubResource("Theme_c40lq")
+text = "LOST GOLDEN WATCH"
+alignment = 0
+clip_text = true
+
+[node name="BrokenRadioButton" type="Button" parent="Intel/Buttons"]
+layout_mode = 2
+text = "BROKEN RADIO"
+alignment = 0
+clip_text = true
+
+[node name="Characters" type="Panel" parent="."]
+visible = false
+layout_mode = 2
+
+[node name="Maps" type="Panel" parent="."]
+visible = false
+layout_mode = 2
+
+[connection signal="pressed" from="Intel/Buttons/LostGoldenWatchButton" to="Intel" method="_on_button_pressed" binds= ["lostgoldenwatch"]]
+[connection signal="pressed" from="Intel/Buttons/BrokenRadioButton" to="Intel" method="_on_button_pressed" binds= ["brokenradio"]]

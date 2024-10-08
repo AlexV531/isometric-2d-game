@@ -1,0 +1,62 @@
+[gd_scene load_steps=11 format=3 uid="uid://croet5yqy3ag1"]
+
+[ext_resource type="Script" path="res://item_container.gd" id="1_nm5n2"]
+[ext_resource type="Script" path="res://inventory.gd" id="2_bscwy"]
+[ext_resource type="Shader" uid="uid://daib0r24oo6ek" path="res://outline.tres" id="3_32772"]
+[ext_resource type="Script" path="res://item_container_menu.gd" id="3_lkqv8"]
+[ext_resource type="PackedScene" uid="uid://bj8u2barmmkyo" path="res://ui/item_slot.tscn" id="4_xrffa"]
+[ext_resource type="Script" path="res://actions/open_container_action.gd" id="5_p405c"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_yrj5v"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_beach"]
+render_priority = 0
+shader = ExtResource("3_32772")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6x5sf"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_n3lgt"]
+material = SubResource("StandardMaterial3D_6x5sf")
+
+[node name="ItemContainer3D" type="Area3D" node_paths=PackedStringArray("default_action")]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("1_nm5n2")
+default_action = NodePath("OpenContainerAction")
+
+[node name="Inventory" type="Node" parent="."]
+script = ExtResource("2_bscwy")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_yrj5v")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+material_overlay = SubResource("ShaderMaterial_beach")
+instance_shader_parameters/outlined = false
+mesh = SubResource("BoxMesh_n3lgt")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="ItemContainerMenu" type="GridContainer" parent="UI" node_paths=PackedStringArray("inventory")]
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -960.0
+offset_top = -270.0
+offset_right = -960.0
+offset_bottom = -270.0
+grow_horizontal = 0
+grow_vertical = 2
+scale = Vector2(3, 3)
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+script = ExtResource("3_lkqv8")
+inventory = NodePath("../../Inventory")
+ItemSlot = ExtResource("4_xrffa")
+metadata/_edit_use_anchors_ = true
+
+[node name="OpenContainerAction" type="Node" parent="." node_paths=PackedStringArray("actor")]
+script = ExtResource("5_p405c")
+actor = NodePath("..")

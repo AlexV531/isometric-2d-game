@@ -1,0 +1,80 @@
+[gd_scene load_steps=13 format=3 uid="uid://7t7dw2r183de"]
+
+[ext_resource type="Script" path="res://Character.gd" id="1_mb64c"]
+[ext_resource type="Texture2D" uid="uid://d1ybiav4y7gr2" path="res://Assets/test-guy.png" id="1_x3kh5"]
+[ext_resource type="Script" path="res://FiniteStateMachine.gd" id="2_rlswd"]
+[ext_resource type="Script" path="res://MoveState.gd" id="3_sy5au"]
+[ext_resource type="Script" path="res://IdleState.gd" id="4_filtk"]
+[ext_resource type="Script" path="res://WanderState.gd" id="5_w1jdd"]
+[ext_resource type="Script" path="res://TestAction.gd" id="7_5fqhh"]
+[ext_resource type="Script" path="res://ListenState.gd" id="7_ikohs"]
+[ext_resource type="Script" path="res://TalkAction.gd" id="8_rfmv1"]
+[ext_resource type="PackedScene" uid="uid://gp8p3gqo67f4" path="res://outline.tscn" id="10_njicg"]
+[ext_resource type="Script" path="res://Target.gd" id="11_vm32b"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sw223"]
+size = Vector2(10, 3)
+
+[node name="Character" type="Area2D" node_paths=PackedStringArray("fsm", "this", "outline")]
+z_index = 1
+y_sort_enabled = true
+script = ExtResource("1_mb64c")
+fsm = NodePath("FiniteStateMachine")
+this = NodePath(".")
+outline = NodePath("Outline")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0, 0.839216, 1, 1)
+texture_filter = 1
+texture = ExtResource("1_x3kh5")
+offset = Vector2(0, -6)
+
+[node name="FiniteStateMachine" type="Node" parent="." node_paths=PackedStringArray("state")]
+script = ExtResource("2_rlswd")
+state = NodePath("WanderState")
+
+[node name="MoveState" type="Node" parent="FiniteStateMachine" node_paths=PackedStringArray("actor")]
+script = ExtResource("3_sy5au")
+actor = NodePath("../..")
+
+[node name="IdleState" type="Node" parent="FiniteStateMachine"]
+script = ExtResource("4_filtk")
+
+[node name="WanderState" type="Node" parent="FiniteStateMachine" node_paths=PackedStringArray("actor")]
+script = ExtResource("5_w1jdd")
+actor = NodePath("../..")
+wander_positions = [Vector2i(5, 18), Vector2i(12, 20)]
+
+[node name="ListenState" type="Node" parent="FiniteStateMachine"]
+script = ExtResource("7_ikohs")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-7, 2, -8, -7, -3, -15, 3, -15, 8, -7, 7, 2)
+
+[node name="TestAction" type="Node" parent="." node_paths=PackedStringArray("actor")]
+script = ExtResource("7_5fqhh")
+actor = NodePath("..")
+
+[node name="TalkAction" type="Node" parent="." node_paths=PackedStringArray("actor")]
+process_mode = 3
+script = ExtResource("8_rfmv1")
+actor = NodePath("..")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_sw223")
+
+[node name="Outline" parent="." node_paths=PackedStringArray("node") instance=ExtResource("10_njicg")]
+texture = ExtResource("1_x3kh5")
+offset = Vector2(0, -6)
+node = NodePath("../Sprite2D")
+
+[node name="Target" type="Sprite2D" parent="."]
+texture = ExtResource("1_x3kh5")
+script = ExtResource("11_vm32b")
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

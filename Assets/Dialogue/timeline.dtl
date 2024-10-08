@@ -1,7 +1,0 @@
-join soup 1
-soup: Hi! My name is Soup!
-soup: Want any cool soups?
-- Sure I'll take one.
-	soup: Soup soup soup.
-- No I'm ok.
-	soup: What? You need soup. You're insane if you don't want soup.

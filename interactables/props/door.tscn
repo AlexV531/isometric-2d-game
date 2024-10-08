@@ -1,0 +1,226 @@
+[gd_scene load_steps=11 format=3 uid="uid://pyce048biq2g"]
+
+[ext_resource type="Script" path="res://interactables/props/door.gd" id="1_fgxkm"]
+[ext_resource type="Texture2D" uid="uid://5ccbnx4inisk" path="res://assets/images/door01.png" id="2_ps544"]
+[ext_resource type="Script" path="res://actions/open_close_door_action.gd" id="3_ik7hx"]
+[ext_resource type="Script" path="res://actions/unlock_action.gd" id="4_o48n4"]
+[ext_resource type="PackedScene" uid="uid://gp8p3gqo67f4" path="res://ui/outline.tscn" id="5_mpi37"]
+
+[sub_resource type="GDScript" id="GDScript_0x55j"]
+script/source = "class_name TileArea
+extends Area2D
+
+
+
+
+func _on_area_entered(area):
+	print(\"entered\")
+"
+
+[sub_resource type="Animation" id="Animation_14wsj"]
+length = 0.001
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-6, -4)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CollisionPolygon2D:polygon")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [PackedVector2Array(0, 0, 4, 2, 20, -6, 20, -38, 16, -40, 0, -32)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("TileArea:collision_layer")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [16]
+}
+
+[sub_resource type="Animation" id="Animation_xvvqu"]
+resource_name = "close"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-6, 2)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CollisionPolygon2D:polygon")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [PackedVector2Array(0, 0, 16, 8, 20, 6, 20, -26, 4, -34, 0, -32)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("TileArea:collision_layer")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [16]
+}
+
+[sub_resource type="Animation" id="Animation_iqg4w"]
+resource_name = "open"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-6, -4)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CollisionPolygon2D:polygon")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [PackedVector2Array(0, 0, 4, 2, 20, -6, 20, -38, 16, -40, 0, -32)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("TileArea:collision_layer")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_3kbxq"]
+_data = {
+"RESET": SubResource("Animation_14wsj"),
+"close": SubResource("Animation_xvvqu"),
+"open": SubResource("Animation_iqg4w")
+}
+
+[node name="Door" type="Area2D"]
+z_index = 1
+y_sort_enabled = true
+script = ExtResource("1_fgxkm")
+closed = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+y_sort_enabled = true
+texture_filter = 1
+position = Vector2(-6, -4)
+texture = ExtResource("2_ps544")
+offset = Vector2(0, -15)
+hframes = 2
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+position = Vector2(-16, 0)
+polygon = PackedVector2Array(0, 0, 4, 2, 20, -6, 20, -38, 16, -40, 0, -32)
+
+[node name="OpenCloseDoorAction" type="Node" parent="." node_paths=PackedStringArray("actor")]
+script = ExtResource("3_ik7hx")
+actor = NodePath("..")
+
+[node name="UnlockAction" type="Node" parent="."]
+script = ExtResource("4_o48n4")
+
+[node name="TileArea" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 2
+script = SubResource("GDScript_0x55j")
+
+[node name="CollisionTile" type="CollisionPolygon2D" parent="TileArea"]
+polygon = PackedVector2Array(0, 8, -16, 0, 0, -8, 16, 0)
+
+[node name="Outline" parent="." instance=ExtResource("5_mpi37")]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_3kbxq")
+}
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
+[connection signal="area_entered" from="TileArea" to="." method="_on_tile_area_area_entered"]
+[connection signal="area_exited" from="TileArea" to="." method="_on_tile_area_area_exited"]

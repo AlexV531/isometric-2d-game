@@ -1,0 +1,72 @@
+[gd_scene load_steps=13 format=3 uid="uid://c7e0w4kxbp0xg"]
+
+[ext_resource type="Script" path="res://Player.gd" id="1_10471"]
+[ext_resource type="Texture2D" uid="uid://cv5flqaafulfc" path="res://Assets/test-guy-tall.png" id="2_304pg"]
+[ext_resource type="Script" path="res://FiniteStateMachine.gd" id="2_kposc"]
+[ext_resource type="Script" path="res://MoveOneAwayState.gd" id="4_g46xs"]
+[ext_resource type="Script" path="res://MoveState.gd" id="4_nqnqg"]
+[ext_resource type="Script" path="res://IdleState.gd" id="5_wsr0t"]
+[ext_resource type="Script" path="res://ChaseState.gd" id="7_dlr78"]
+[ext_resource type="Script" path="res://InteractingMetaState.gd" id="8_38w83"]
+[ext_resource type="Script" path="res://DefaultMetaState.gd" id="9_78jqv"]
+[ext_resource type="Script" path="res://SlowMetaState.gd" id="10_rbmhb"]
+[ext_resource type="Script" path="res://TalkingMetaState.gd" id="11_s2typ"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8hbco"]
+size = Vector2(10, 3)
+
+[node name="Player" type="Node2D"]
+z_index = 1
+y_sort_enabled = true
+texture_filter = 1
+script = ExtResource("1_10471")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("2_304pg")
+offset = Vector2(0, -14)
+
+[node name="FiniteStateMachine" type="Node" parent="." node_paths=PackedStringArray("state")]
+script = ExtResource("2_kposc")
+state = NodePath("IdleState")
+
+[node name="MoveState" type="Node" parent="FiniteStateMachine" node_paths=PackedStringArray("actor")]
+script = ExtResource("4_nqnqg")
+actor = NodePath("../..")
+
+[node name="MoveOneAwayState" type="Node" parent="FiniteStateMachine" node_paths=PackedStringArray("actor")]
+script = ExtResource("4_g46xs")
+actor = NodePath("../..")
+
+[node name="IdleState" type="Node" parent="FiniteStateMachine"]
+script = ExtResource("5_wsr0t")
+
+[node name="ChaseState" type="Node" parent="FiniteStateMachine" node_paths=PackedStringArray("actor")]
+script = ExtResource("7_dlr78")
+actor = NodePath("../..")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_8hbco")
+
+[node name="FiniteMetaStateMachine" type="Node" parent="." node_paths=PackedStringArray("state")]
+script = ExtResource("2_kposc")
+state = NodePath("DefaultMetaState")
+
+[node name="InteractingMetaState" type="Node" parent="FiniteMetaStateMachine" node_paths=PackedStringArray("p")]
+script = ExtResource("8_38w83")
+p = NodePath("../..")
+
+[node name="DefaultMetaState" type="Node" parent="FiniteMetaStateMachine" node_paths=PackedStringArray("p")]
+script = ExtResource("9_78jqv")
+p = NodePath("../..")
+
+[node name="SlowMetaState" type="Node" parent="FiniteMetaStateMachine" node_paths=PackedStringArray("p")]
+script = ExtResource("10_rbmhb")
+p = NodePath("../..")
+
+[node name="TalkingMetaState" type="Node" parent="FiniteMetaStateMachine"]
+script = ExtResource("11_s2typ")

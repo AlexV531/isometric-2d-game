@@ -1,0 +1,175 @@
+[gd_scene load_steps=21 format=3 uid="uid://7t7dw2r183de"]
+
+[ext_resource type="Script" path="res://interactables/character/character.gd" id="1_mb64c"]
+[ext_resource type="Texture2D" uid="uid://d1ybiav4y7gr2" path="res://assets/images/test-guy.png" id="1_x3kh5"]
+[ext_resource type="Script" path="res://states/finite_state_machine.gd" id="2_rlswd"]
+[ext_resource type="Script" path="res://states/move_state.gd" id="3_sy5au"]
+[ext_resource type="Script" path="res://states/idle_state.gd" id="4_filtk"]
+[ext_resource type="Script" path="res://states/wander_state.gd" id="5_w1jdd"]
+[ext_resource type="Script" path="res://actions/test_action.gd" id="7_5fqhh"]
+[ext_resource type="Script" path="res://states/listen_state.gd" id="7_ikohs"]
+[ext_resource type="Script" path="res://actions/talk_action.gd" id="8_rfmv1"]
+[ext_resource type="Resource" uid="uid://clw5ivplgli7e" path="res://assets/dialogue/soup.dialogue" id="10_2d3v7"]
+[ext_resource type="PackedScene" uid="uid://gp8p3gqo67f4" path="res://ui/outline.tscn" id="10_njicg"]
+[ext_resource type="Script" path="res://actions/shoot_action.gd" id="11_5r8u5"]
+[ext_resource type="Shader" path="res://ui/outline01.gdshader" id="11_a3u11"]
+[ext_resource type="Script" path="res://interactables/target.gd" id="11_l8p2q"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sw223"]
+size = Vector2(10, 3)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_em04j"]
+render_priority = 0
+shader = ExtResource("11_a3u11")
+shader_parameter/albedo = null
+
+[sub_resource type="Animation" id="Animation_ghs3o"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionPolygon2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_t5hq1"]
+resource_name = "dead"
+length = 1.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1, 1.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, -0.261799, -0.523599, -0.785398, -1.0472, -1.309, -1.5708]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionPolygon2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_ki14k"]
+resource_name = "idle"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CollisionPolygon2D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_j7h7e"]
+_data = {
+"RESET": SubResource("Animation_ghs3o"),
+"dead": SubResource("Animation_t5hq1"),
+"idle": SubResource("Animation_ki14k")
+}
+
+[node name="Character" type="Area2D"]
+z_index = 1
+y_sort_enabled = true
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("1_mb64c")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0, 0.839216, 1, 1)
+texture_filter = 1
+texture = ExtResource("1_x3kh5")
+offset = Vector2(0, -6)
+
+[node name="FiniteStateMachine" type="Node" parent="." node_paths=PackedStringArray("state")]
+script = ExtResource("2_rlswd")
+state = NodePath("WanderState")
+
+[node name="MoveState" type="Node" parent="FiniteStateMachine" node_paths=PackedStringArray("actor")]
+script = ExtResource("3_sy5au")
+actor = NodePath("../..")
+
+[node name="IdleState" type="Node" parent="FiniteStateMachine"]
+script = ExtResource("4_filtk")
+
+[node name="WanderState" type="Node" parent="FiniteStateMachine"]
+script = ExtResource("5_w1jdd")
+wander_positions = [Vector2i(5, 18), Vector2i(12, 20)]
+
+[node name="ListenState" type="Node" parent="FiniteStateMachine"]
+script = ExtResource("7_ikohs")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-7, 2, -8, -7, -3, -15, 3, -15, 8, -7, 7, 2)
+disabled = true
+
+[node name="TestAction" type="Node" parent="." node_paths=PackedStringArray("actor")]
+script = ExtResource("7_5fqhh")
+actor = NodePath("..")
+
+[node name="TalkAction" type="Node" parent="." node_paths=PackedStringArray("actor")]
+process_mode = 3
+script = ExtResource("8_rfmv1")
+dialogue_resource = ExtResource("10_2d3v7")
+actor = NodePath("..")
+
+[node name="ShootAction" type="Node" parent="." node_paths=PackedStringArray("actor")]
+script = ExtResource("11_5r8u5")
+actor = NodePath("..")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_sw223")
+
+[node name="Outline" parent="." instance=ExtResource("10_njicg")]
+offset = Vector2(0, -6)
+
+[node name="Target" type="Sprite2D" parent="."]
+visible = false
+material = SubResource("ShaderMaterial_em04j")
+script = ExtResource("11_l8p2q")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_j7h7e")
+}
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

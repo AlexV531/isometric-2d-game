@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://dfqo7r0piurtq"]
+
+[node name="ActionLabel" type="Label"]
+offset_right = 33.0
+offset_bottom = 23.0
+pivot_offset = Vector2(0, 23)
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "Test"
+metadata/_edit_use_anchors_ = true

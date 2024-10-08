@@ -1,0 +1,71 @@
+[gd_scene load_steps=15 format=3 uid="uid://ce77cbaqhlvo"]
+
+[ext_resource type="Script" path="res://character_3d.gd" id="1_m7eyg"]
+[ext_resource type="Shader" uid="uid://daib0r24oo6ek" path="res://outline.tres" id="2_7rpwy"]
+[ext_resource type="Script" path="res://states/finite_state_machine.gd" id="2_hlvr6"]
+[ext_resource type="Script" path="res://states/move_state.gd" id="3_etbdi"]
+[ext_resource type="Script" path="res://states/idle_state.gd" id="4_02ho3"]
+[ext_resource type="Script" path="res://actions/talk_action.gd" id="5_7okso"]
+[ext_resource type="Script" path="res://states/listen_state.gd" id="5_edtqf"]
+[ext_resource type="Resource" uid="uid://clw5ivplgli7e" path="res://assets/dialogue/soup.dialogue" id="6_op375"]
+[ext_resource type="Script" path="res://states/wander_state.gd" id="7_e5vl4"]
+[ext_resource type="Script" path="res://actions/shoot_action.gd" id="8_sx5ex"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mfwmf"]
+radius = 0.25
+height = 1.75
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_if4b5"]
+render_priority = 0
+shader = ExtResource("2_7rpwy")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_foboj"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_fqyfs"]
+material = SubResource("StandardMaterial3D_foboj")
+radius = 0.25
+height = 1.75
+
+[node name="Character" type="CharacterBody3D" node_paths=PackedStringArray("default_action")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.375, 0)
+collision_layer = 21
+collision_mask = 0
+script = ExtResource("1_m7eyg")
+default_action = NodePath("TalkAction")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_mfwmf")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+sorting_offset = 100.0
+material_overlay = SubResource("ShaderMaterial_if4b5")
+instance_shader_parameters/outlined = false
+mesh = SubResource("CapsuleMesh_fqyfs")
+
+[node name="FiniteStateMachine" type="Node" parent="." node_paths=PackedStringArray("state")]
+script = ExtResource("2_hlvr6")
+state = NodePath("IdleState")
+
+[node name="MoveState" type="Node" parent="FiniteStateMachine" node_paths=PackedStringArray("actor")]
+script = ExtResource("3_etbdi")
+actor = NodePath("../..")
+
+[node name="IdleState" type="Node" parent="FiniteStateMachine"]
+script = ExtResource("4_02ho3")
+
+[node name="ListenState" type="Node" parent="FiniteStateMachine"]
+script = ExtResource("5_edtqf")
+
+[node name="WanderState" type="Node" parent="FiniteStateMachine" node_paths=PackedStringArray("actor")]
+script = ExtResource("7_e5vl4")
+actor = NodePath("../..")
+wander_positions = Array[Vector2i]([Vector2i(-6, -1), Vector2i(-3, 5)])
+
+[node name="TalkAction" type="Node" parent="." node_paths=PackedStringArray("actor")]
+script = ExtResource("5_7okso")
+dialogue_resource = ExtResource("6_op375")
+actor = NodePath("..")
+
+[node name="ShootAction" type="Node" parent="." node_paths=PackedStringArray("actor")]
+script = ExtResource("8_sx5ex")
+actor = NodePath("..")

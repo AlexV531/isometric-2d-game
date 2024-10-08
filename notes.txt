@@ -1,0 +1,28 @@
+Steps to making a new interactable
+ - Make interactable scene that is Area2D
+ - Add the actions you want as nodes
+ - Make script that is a subclass of interactable, add all actions to action list in _ready
+ - Change the collision layer to 3
+ - Add Sprite2D, Outline (need to use Outline scene) and CollisionPolygon2D
+
+Steps to adding a new action:
+ - Make action subclass
+ - Add action as child of interactable object in heirarchy
+ - Add action as variable in interactable object class and append it to the actions list
+
+Steps to making something targetable in slow mode:
+ - Add target script as a child of an interactable in heirarchy
+
+Steps to adding a new inventory:
+ - Give your scene an Inventory node
+ - Link gui_input signals back to player class using the Inventory
+ - Link mouse_entered and mouse_exited signals to player class as well for tooltips
+ - Add ItemContainerMenu and make sure to load the ItemSlot scene into it
+
+Y SORT
+If theres a y sort problem, make sure each part has y sort enabled.
+
+COLLISION LAYERS
+1: General
+3: Interactable mouse selection
+5: Bullets

@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://u3bf2dcnt1mi"]
+
+[ext_resource type="Script" path="res://line_2d_with_position_2.gd" id="1_wchqc"]
+
+[node name="Line2DWithPosition2" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_wchqc")
+
+[node name="Line2D" type="Line2D" parent="."]
+y_sort_enabled = true
+width = 1.0

@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3 uid="uid://d3p0so773cr27"]
+
+[ext_resource type="Shader" path="res://grid_space_highlight.gdshader" id="1_asqem"]
+[ext_resource type="Script" path="res://cover.gd" id="2_7aw3i"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bo01k"]
+render_priority = 0
+shader = ExtResource("1_asqem")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ol57b"]
+size = Vector2(1, 1)
+
+[node name="CoverHighlight" type="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, 0)
+material_overlay = SubResource("ShaderMaterial_bo01k")
+transparency = 1.0
+instance_shader_parameters/color = Color(0, 0, 1, 0.686275)
+mesh = SubResource("PlaneMesh_ol57b")
+script = ExtResource("2_7aw3i")

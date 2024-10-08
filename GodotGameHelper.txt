@@ -1,4 +1,0 @@
-Steps to adding a new action:
- - Make action class
- - Add action as child of interactable object
- - Add action as variable in interactable object class and append it to the actions list
